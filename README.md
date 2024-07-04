@@ -21,15 +21,19 @@ Setup:
 ## Danh sách API
 
 - API khởi tạo user (nếu có thì trả về token, nếu không có thì tạo user), sau khi call API, postman tự chạy script ở mục `Scripts`, để lưu giá trị access token vào biến env `ACCESS_TOKEN`
-<space><space>
+```
+
 POST init-user
 {
     "phone": "0358753662",
     "email": "tranquockiet.cs@gmail.com",
     "name": "quoc kiet"
 }
-<space><space>
+```
+
 Output:
+```
+
 {
     "message": "ok",
     "is_success": true,
@@ -39,11 +43,14 @@ Output:
         "expires_in": 3600
     }
 }
+```
 
 - API init game
-<space><space>
+```
+
 POST game
-<space><space>
+
+
 Output:
 {
     "message": "ok",
@@ -56,11 +63,13 @@ Output:
         "is_max_score": false
     }
 }
+```
 
 - API gọi khi con chim pass pillar, khi đạt được tối đa 1000 pillar thì chương trình tự động kết thúc (tặng quà và field `is_max_score` = true)
-<space><space>
+```
+
 POST game/pass-pillar/{game_id}
-<space><space>
+
 OutPut:
 {
     "message": "ok",
@@ -73,11 +82,13 @@ OutPut:
         "is_max_score": false
     }
 }
+```
 
 - API gọi khi con chim hit pillar, 
-<space><space>
+```
+
 POST game/hit-pillar/{game_id}
-<space><space>
+
 Output:
 {
     "message": "ok",
@@ -91,11 +102,13 @@ Output:
     }
 
 }
+```
 
 - API khởi tạo report, nhận về 1 uuid để check khi nào report được generate xong
-<space><space>
+```
+
 POST report
-<space><space>
+
 Output:
 {
     "message": "ok",
@@ -106,11 +119,13 @@ Output:
         "is_error": false
     }
 }
+```
 
 - API check report, khi generate report thành công thì sẽ hiện ra đường dẫn để download về 
-<space><space>
+```
+
 GET report/{uuid}
-<space><space>
+
 Output:
 {
     "message": "ok",
@@ -121,6 +136,7 @@ Output:
         "is_error": false
     }
 }
+```
 
 ### Security
 - Áp dụng RateLimiter của Laravel để hạn chế user-ip request 120/ phút, được cấu hình tại file `app/Providers/AppServiceProvider.php`
