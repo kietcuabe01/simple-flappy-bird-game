@@ -24,6 +24,7 @@ return new class extends Migration
 
         Schema::create('games', function (Blueprint $table) {
             $table->id();
+            $table->ipAddress('ip');
             $table->foreignId('user_id')->index();
             $table->foreignId('reward_id')->nullable()->index();
             $table->integer('score')->default(0);

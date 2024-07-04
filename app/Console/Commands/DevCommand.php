@@ -9,6 +9,7 @@ use App\Models\Game;
 use App\Models\ReportFile;
 use App\Models\Reward;
 use App\Models\User;
+use App\Services\AuditGameService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Lottery;
@@ -55,5 +56,9 @@ class DevCommand extends Command
 //        dispatch(new ReportAllGame($report->uuid));
 //        $uuid = '484e3b6b-720e-40e2-9f79-447f8cb360df';
 //        echo ((new ReportFileResource(ReportFile::query()->where('uuid', $uuid)->first()))->toJson()), PHP_EOL;
+
+        app(AuditGameService::class)->handle();
+
+        dump(Cache::get(CacheHelper::USER_BLACKLIST));
     }
 }

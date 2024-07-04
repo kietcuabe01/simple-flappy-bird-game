@@ -43,7 +43,10 @@ class ReportAllGame implements ShouldQueue
         $error = '';
         $exception = null;
         try {
+            //cần enhance khi job chạy quá lâu -> lưu offset lần chạy gần nhất để khi retry không cần phải chạy lại toàn bộ table
+            //cần enhance khi detect user banned, sẽ thể hiện trong report
             Excel::store(new GameExport(), $path, 'public');
+
         } catch (\Throwable $throwable) {
             $error = $throwable->getTraceAsString();
             $exception = $throwable;

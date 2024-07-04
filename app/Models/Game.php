@@ -13,6 +13,8 @@ use Illuminate\Support\Lottery;
  * @property \DateTimeInterface|null $finished_at
  * @property $reward_id
  * @property $reward_name
+ * @property $user_id
+ * @property $ip
  */
 class Game extends Model
 {
@@ -23,6 +25,7 @@ class Game extends Model
         'score',
         'finished_at',
         'reward_id',
+        'ip'
     ];
 
     const MAX_SCORE = 1000;
@@ -47,9 +50,18 @@ class Game extends Model
         return Reward::getAllRewards()->get($this->reward_id)->item;
     }
 
-    public static function init($userId): Game
+    public static function init($userId, $ip = null): Game
     {
-        return new Game(['user_id' => $userId, 'score' => 0, 'finished_at' => null, 'reward_id' => null]);
+        if (!$ip) {
+            $ip = request()->ip();
+        }
+        return new Game([
+            'user_id' => $userId,
+            'score' => 0,
+            'finished_at' => null,
+            'reward_id' => null,
+            'ip' => $ip
+        ]);
     }
 
     public function isFinished(): bool

@@ -7,11 +7,12 @@ use App\Http\Controllers\ApiController;
 use App\Http\Resources\GameResource;
 use App\Models\Game;
 use App\Services\GameService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GameController extends ApiController
 {
-    public function init()
+    public function init(Request $request)
     {
         $game = Game::init(Auth::id());
         $game->save();
