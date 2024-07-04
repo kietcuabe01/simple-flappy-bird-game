@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "f9eb1591-e306-41f1-8ecf-cb1898a24d32",
+		"name": "flappy_bird",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1488209",
+		"_collection_link": "https://lunar-eclipse-173652.postman.co/workspace/My-Workspace~0432d7a5-34ba-45d4-878f-289acf50d8f4/collection/1488209-f9eb1591-e306-41f1-8ecf-cb1898a24d32?action=share&source=collection_link&creator=1488209"
+	},
+	"item": [
+		{
+			"name": "Game",
+			"item": [
+				{
+					"name": "Init",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{server}}game",
+							"host": [
+								"{{server}}game"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pass Pillar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{server}}game/pass-pillar/11",
+							"host": [
+								"{{server}}game"
+							],
+							"path": [
+								"pass-pillar",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hit Pillar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Afst",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "Bpuc",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "Cdsd",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "Drwut",
+								"value": "1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}game/hit-pillar/3",
+							"host": [
+								"{{server}}game"
+							],
+							"path": [
+								"hit-pillar",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Report",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Afst",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "Bpuc",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "Cdsd",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "Drwut",
+								"value": "1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}report",
+							"host": [
+								"{{server}}report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Afst",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "Bpuc",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "Cdsd",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "Drwut",
+								"value": "1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}report/7ada48d4-7b3e-48ea-a58c-9d688b93b747",
+							"host": [
+								"{{server}}report"
+							],
+							"path": [
+								"7ada48d4-7b3e-48ea-a58c-9d688b93b747"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Init User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"ACCESS_TOKEN\",jsonData.data.access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Afst",
+						"value": "1",
+						"type": "text"
+					},
+					{
+						"key": "Bpuc",
+						"value": "1",
+						"type": "text"
+					},
+					{
+						"key": "Cdsd",
+						"value": "1",
+						"type": "text"
+					},
+					{
+						"key": "Drwut",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone\": \"0358753667\",\n    \"email\": \"tranquockiet.cs@gmail.com\",\n    \"name\": \"quoc kiet\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}init-user",
+					"host": [
+						"{{server}}init-user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
