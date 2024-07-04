@@ -13,7 +13,7 @@ Setup:
 
 ## Setup Postman
 
-- tạo biến env `server`, có initial value là http:/flappy_bird.wip/api/
+- tạo biến env `server`, có initial value là http://flappy_bird.wip/api/
 - tạo biến env `ACCESS_TOKEN`, có initial value là chuỗi rỗng
 - import collection postman bằng file đính kèm trong source
 - điền user-agent của postman vào file `resources/user-agents.txt`, đây là nơi lưu trữ danh sách các trình duyệt hợp lệ
