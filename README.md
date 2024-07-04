@@ -1,66 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About
 
-## About Laravel
+Source backend, không có frontend.
+Setup:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- chạy `composer install`.
+- chạy `php artisan migrate`
+- chạy `php artisan octane:start` (tham khảo https://laravel.com/docs/11.x/octane)
+- mở một tab command line khác, chạy `php artisan app:warm-up` (khởi tạo cache danh sách giải thưởng (reward) và warm-up octane).
+- mở một tab khác chạy lệnh `php artisan queue:work`
+- nếu dùng nginx thì tạo 1 proxy với domain `flappy_bird.wip` forward qua port 8000 (port của octane start)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Setup Postman
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- tạo biến env `server`, có initial value là http:/flappy_bird.wip/api/
+- tạo biến env `ACCESS_TOKEN`, có initial value là chuỗi rỗng
+- import collection postman bằng file đính kèm trong source
+- điền user-agent của postman vào file `resources/user-agents.txt`, đây là nơi lưu trữ danh sách các trình duyệt hợp lệ
+- chú ý các header của tất cả request đều phải chứa các dummy header trong file `resources/foobar-headers.txt` (tham khảo các request trong file collection postman đính kèm)
+## Danh sách API
 
-## Learning Laravel
+- API khởi tạo user (nếu có thì trả về token, nếu không có thì tạo user), sau khi call API, postman tự chạy script ở mục `Scripts`, để lưu giá trị access token vào biến env `ACCESS_TOKEN`
+POST init-user
+{
+    "phone": "0358753662",
+    "email": "tranquockiet.cs@gmail.com",
+    "name": "quoc kiet"
+}
+Output:
+{
+    "message": "ok",
+    "is_success": true,
+    "data": {
+        "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZmxhcHB5X2JpcmQud2lwL2FwaS9pbml0LXVzZXIiLCJpYXQiOjE3MjAwNzkzODgsImV4cCI6MTcyMDA4Mjk4OCwibmJmIjoxNzIwMDc5Mzg4LCJqdGkiOiIzcmZnSXhnUXZKeUJsRUxSIiwic3ViIjoiMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.QuNDFL8mA8V3fAjG1NHF3zb5KOpWc6e0DPcw919_vQk",
+        "token_type": "bearer",
+        "expires_in": 3600
+    }
+}
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- API init game
+POST game
+Output:
+{
+    "message": "ok",
+    "is_success": true,
+    "data": {
+        "id": 5,
+        "score": 0,
+        "reward_name": "",
+        "finished_at": null,
+        "is_max_score": false
+    }
+}
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- API gọi khi con chim pass pillar, khi đạt được tối đa 1000 pillar thì chương trình tự động kết thúc (tặng quà và field `is_max_score` = true)
+POST game/pass-pillar/{game_id}
+OutPut:
+{
+    "message": "ok",
+    "is_success": true,
+    "data": {
+        "id": 4,
+        "score": 1,
+        "reward_name": "",
+        "finished_at": null,
+        "is_max_score": false
+    }
+}
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- API gọi khi con chim hit pillar, 
+POST game/hit-pillar/{game_id}
+Output:
+{
+    "message": "ok",
+    "is_success": true,
+    "data": {
+        "id": 4,
+        "score": 1,
+        "reward_name": "",
+        "finished_at": "2024-07-04T08:00:54.000000Z",
+        "is_max_score": false
+    }
 
-## Laravel Sponsors
+}
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- API khởi tạo report, nhận về 1 uuid để check khi nào report được generate xong
+POST report
+Output:
+{
+    "message": "ok",
+    "is_success": true,
+    "data": {
+        "uuid": "9a40e98d-df6c-4c54-bd9f-777e37b50d97",
+        "path": "",
+        "is_error": false
+    }
+}
 
-### Premium Partners
+- API check report, khi generate report thành công thì sẽ hiện ra đường dẫn để download về 
+GET report/{uuid}
+Output:
+{
+    "message": "ok",
+    "is_success": true,
+    "data": {
+        "uuid": "7ada48d4-7b3e-48ea-a58c-9d688b93b747",
+        "path": "http://flappy_bird.wip/storage/reports/games/2024/07/04/7ada48d4-7b3e-48ea-a58c-9d688b93b747.xlsx",
+        "is_error": false
+    }
+}
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Security
+- Áp dụng RateLimiter của Laravel để hạn chế user-ip request 120/ phút, được cấu hình tại file `app/Providers/AppServiceProvider.php`
+- Áp dụng hậu kiểm bằng crontab, ban những user gian lận ở file `routes/console.php`, với logic: ban các user chỉ tạo game mà không chơi, ban các user nhận quà, nhưng chơi ở nhiều ip khác nhau.
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
